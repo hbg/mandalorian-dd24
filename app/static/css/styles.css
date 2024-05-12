@@ -165,7 +165,8 @@ a {
 }
 
 .glyph-box img {
-    width: 100%;
+    width: auto;
+    max-height: 50px;
 }
 
 .glyph-wrapper img:hover {

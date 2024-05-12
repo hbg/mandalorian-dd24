@@ -4,17 +4,19 @@
     let active = true;
 
     function init() {
-        const glyphSymbols = qsa('.glyph-wrapper > img');
-        glyphSymbols.forEach((symbol) => {
-            symbol.addEventListener("click", addGlyph);
-        });
-
-        const glyphBoxes = qsa('.glyph-box');
-        glyphBoxes.forEach((box) => {
-            box.addEventListener("click", function () {
-                this.innerHTML = '';
+        if (!initialIsComplete()) {
+            const glyphSymbols = qsa('.glyph-wrapper > img');
+            glyphSymbols.forEach((symbol) => {
+                symbol.addEventListener("click", addGlyph);
             });
-        });
+
+            const glyphBoxes = qsa('.glyph-box');
+            glyphBoxes.forEach((box) => {
+                box.addEventListener("click", function () {
+                    this.innerHTML = '';
+                });
+            });
+        }
 
         const glyphToggles = qsa('#glyph-toggle > div');
         glyphToggles[0].classList.add("selected");
@@ -42,6 +44,22 @@
         id('glyph-'+value).classList.toggle("hidden");
     }
 
+    function initialIsComplete() {
+        const glyphBoxes = qsa('.glyph-box');
+        let completedGlyphs = 0;
+        for (let i = 0; i < glyphBoxes.length; i++) {
+            let box = glyphBoxes[i];
+            if (box.children.length != 0) {
+                completedGlyphs++;
+            } else {
+                break
+            }
+        }
+        if (completedGlyphs == glyphBoxes.length) {
+            return true
+        }
+    }
+
     function addGlyph() {
         if (!active) {
             return
@@ -51,7 +69,7 @@
         for (let i = 0; i < glyphBoxes.length; i++) {
             completedGlyphs++;
             let box = glyphBoxes[i];
-            if (box.innerHTML == '') {
+            if (box.children.length == 0) {
                 box.appendChild(this.cloneNode(true));
                 break;
             }
@@ -86,7 +104,6 @@
                         glyphBoxImgs.forEach((img) => {
                             img.classList.add("correct");
                         });
-                        window.location.href = '/';
                     } else {
                         active = false;
                         glyphBoxImgs.forEach((img) => {

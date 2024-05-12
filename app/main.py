@@ -27,6 +27,13 @@ imgs = {
     "places": os.listdir(GLYPH_PATH + 'places'),
     "verbs": os.listdir(GLYPH_PATH + 'verbs'),
 }
+categories = {
+    "adjectives": [i.replace(".png", "") for i in os.listdir(GLYPH_PATH + 'adjectives')],
+    "nouns":  [i.replace(".png", "") for i in os.listdir(GLYPH_PATH + 'nouns')],
+    "people": [i.replace(".png", "") for i in os.listdir(GLYPH_PATH + 'people')],
+    "places": [i.replace(".png", "") for i in os.listdir(GLYPH_PATH + 'places')],
+    "verbs": [i.replace(".png", "") for i in os.listdir(GLYPH_PATH + 'verbs')],
+}
 
 def get_db_connection():
     conn = sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
@@ -40,6 +47,15 @@ def get_elapsed_seconds():
         return None
     conn.close()
     return act_times[0]['elapsed_seconds']
+
+def is_solved(puzzle_id):
+    conn = get_db_connection()
+    stmt = 'SELECT solved FROM solved_puzzles WHERE puzzle_id=?'
+    puzzles = conn.execute(stmt, (puzzle_id,)).fetchall()
+    conn.close()
+    if len(puzzles) == 0:
+        return None
+    return puzzles[0]['solved'] == 1
 
 @app.route("/")
 def home_view():
@@ -56,8 +72,13 @@ def home_view():
 
 @app.route("/code/<code_id>")
 def code_view(code_id):
+    solved = is_solved(code_id)
+    if solved is None:
+        return redirect('/')
+    print(solved)
     return render_template('code.html', code_id=code_id, code_hint=code_hints[code_id],
-                           imgs=imgs, code_solution = codes[code_id])
+                           imgs=imgs, code_solution = codes[code_id], solved=solved,
+                           categories=categories)
 
 @app.route("/submit", methods=["POST"])
 def submit_code():

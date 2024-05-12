@@ -22,7 +22,15 @@
                 <img src="{{code_hint}}">
                 <section id="glyph-progress">
                 {% for glyph in code_solution %}
-                    <div class="glyph-box"></div>
+                    <div class="glyph-box">
+                        {% if solved %}
+                            {% for type, glyphs in categories.items() %}
+                                {% if glyph in glyphs %}
+                                    <img src="{{ url_for('static', filename='img/glyphs/'+ type + '/'+glyph+'.png')}}" alt="{{glyph}}">
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 {% endfor %}
                 </section>
             </div>
