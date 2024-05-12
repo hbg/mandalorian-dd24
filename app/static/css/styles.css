@@ -12,7 +12,19 @@ body {
     font-family: 'Aurebesh', 'Garamond', 'Arial';
 }
 
+#glyph-toggle {
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+}
 
+#glyph-toggle > div {
+    padding: 4px;
+}
+
+#glyph-toggle > div:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
 
 main {
     display: flex;
@@ -80,7 +92,7 @@ main {
     margin: 8px;
 }
 
-#glyph-info, #glyph-wrapper {
+#glyph-info, .glyph-wrapper {
     width: 70%;
     min-width: 200px;
     max-width: 300px;
@@ -99,15 +111,15 @@ main {
     margin: 4px 8px;
 }
 
-#glyph-wrapper {
+.glyph-wrapper {
     border: 4px solid white;
     width: 100%;
 }
 
-#glyph-wrapper > img {
+.glyph-wrapper > img {
     width: 20%;
     aspect-ratio: 1;
-    border: 2px solid white;
+    border: 2px solid rgba(255, 255, 255, 0.172);
     margin: 4px;
 }
 
@@ -125,7 +137,7 @@ a {
     text-decoration: none;
 }
 
-#glyph-progress, #glyph-wrapper, #glyph-toggle {
+#glyph-progress, .glyph-wrapper, #glyph-toggle {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -134,25 +146,33 @@ a {
     padding: 4px;
 }
 
-#glyph-toggle img {
-    width: 33%;
+#glyph-toggle div {
+    width: 20%;
     color: black;
     text-align: center;
 }
 
 .glyph-box {
     width: 15%;
+    height: 40px;
     background-color: transparent;
     border-bottom: 4px solid white;
     transition: 200ms ease-in-out all;
-    aspect-ratio: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#glyph-wrapper img:hover {
+.glyph-box img {
+    width: 100%;
+}
+
+.glyph-wrapper img:hover {
     background-color: rgba(255, 255, 255, 0.467);
+}
+
+.hidden {
+    display: none;
 }
 
 #glyph-info > img {
