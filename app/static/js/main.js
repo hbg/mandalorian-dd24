@@ -12,10 +12,13 @@
         const glyphToggles = qsa('#glyph-toggle > div');
         glyphToggles.forEach((toggle) => {
             let toggleValue = toggle.getAttribute('value');
-            console.log("hello");
             toggle.addEventListener("click", () => {
                 toggleGlyph(toggleValue);
             })
+        });
+
+        qsa(".glyph-wrapper").forEach((el) => {
+            el.style.width = id('glyph-toggle').style.width;
         });
     }
 
@@ -64,6 +67,10 @@
                     var json_data = JSON.parse(xhr.responseText);
                     if (json_data['solved'] == true) {
                         console.log("Solved!");
+                        glyphBoxImgs.forEach((img) => {
+                            img.classList.add("correct");
+                        });
+                        window.location.href = '/';
                     } else {
                         active = false;
                         glyphBoxImgs.forEach((img) => {
