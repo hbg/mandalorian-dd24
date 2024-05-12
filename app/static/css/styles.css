@@ -13,7 +13,7 @@ body {
 }
 
 #glyph-toggle {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Jaro', 'Courier New', Courier, monospace;
     color: black;
 }
 
@@ -97,16 +97,12 @@ main {
 
 #glyph-info, #glyph-toggle, .glyph-wrapper {
     min-width: 200px;
-    max-width: 300px;
+    max-width: 450px;
 }
 
 #glyph-keyboard {
     display: flex;
     flex-direction: column;
-}
-
-#glyph-toggle {
-    background-color: white;
 }
 
 #glyph-progress {
@@ -152,6 +148,11 @@ a {
     text-align: center;
 }
 
+#glyph-toggle div.selected {
+    border-radius: 4px;
+    background-color: rgb(195, 195, 195);
+}
+
 .glyph-box {
     width: 15%;
     height: 40px;
@@ -177,4 +178,15 @@ a {
 
 #glyph-info > img {
     width: 100%;
+}
+
+#glyph-toggle {
+    background-color: white;
+    text-transform: uppercase;
+    justify-content: space-around;
+}
+
+#back-button {
+    font-family: 'Jaro';
+    font-size: 18pt;
 }

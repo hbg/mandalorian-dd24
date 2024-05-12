@@ -17,6 +17,7 @@
         });
 
         const glyphToggles = qsa('#glyph-toggle > div');
+        glyphToggles[0].classList.add("selected");
         glyphToggles.forEach((toggle) => {
             let toggleValue = toggle.getAttribute('value');
             toggle.addEventListener("click", () => {
@@ -30,9 +31,14 @@
     }
 
     function toggleGlyph(value) {
+        const glyphToggles = qsa('#glyph-toggle > div');
+        glyphToggles.forEach((toggle) => {
+            toggle.classList.remove("selected");
+        });
         qsa('.glyph-wrapper').forEach((wrapper) => {
             wrapper.classList.add("hidden");
         });
+        qs('#glyph-toggle > div[value="' + value +'"]').classList.add("selected");
         id('glyph-'+value).classList.toggle("hidden");
     }
 
