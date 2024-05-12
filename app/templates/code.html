@@ -10,16 +10,55 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
-        <script defer src="main.js"></script>
+        <script defer src="{{ url_for('static',filename='js/utils.js') }}"></script>
+        <script defer src="{{ url_for('static',filename='js/main.js') }}"></script>
     </head>
     <body>
-      <main>
-        <img id="logo" src="{{ url_for('static', filename='img/logo.png')}}">
-        <div id="glyph-wrapper">
-            <img src="" alt="1">
-            <img src="" alt="2">
-            <img src="" alt="3">
-        </div>
+      <main value="{{code_id}}">
+        <img id="logo" src="{{ url_for('static', filename='img/empire.svg')}}">
+        <section id="glyph-translation-container">
+            <div id="glyph-info">
+                <img src="https://helios-i.mashable.com/imagery/articles/01pkPQvUb6TvGYptPMBKR4x/hero-image.fill.size_1200x900.v1681906803.jpg">
+                <section id="glyph-progress">
+                {% for glyph in code_solution %}
+                    <div class="glyph-box"></div>
+                {% endfor %}
+                </section>
+            </div>
+            <div id="glyph-keyboard">
+                <section id="glyph-toggle">
+                    <img src="" alt="1">
+                    <img src="" alt="2">
+                    <img src="" alt="3">
+                </section>
+                <section id="glyph-wrapper">
+                    <img src="" alt="1">
+                    <img src="" alt="2">
+                    <img src="" alt="3">
+
+                    <img src="" alt="4">
+                    <img src="" alt="5">
+                    <img src="" alt="6">
+
+                    <img src="" alt="7">
+                    <img src="" alt="8">
+                    <img src="" alt="9">
+
+
+                    <img src="" alt="1">
+                    <img src="" alt="2">
+                    <img src="" alt="3">
+
+                    <img src="" alt="4">
+                    <img src="" alt="5">
+                    <img src="" alt="6">
+
+                    <img src="" alt="7">
+                    <img src="" alt="8">
+                    <img src="" alt="9">
+                </section>
+            </div>
+        </section>
         <button id="back-button"><a href="/">← Go Back</a></button>
       </main>
     </body>

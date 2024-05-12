@@ -14,25 +14,14 @@
     </head>
     <body>
       <main>
-        <img id="logo" src="{{ url_for('static', filename='img/logo.png')}}">
+        <img id="logo" src="{{ url_for('static', filename='img/empire.svg')}}">
         <div id="task-wrapper">
-            <a class="task" href="/code/1">
-                1
+            {% for puzzle in puzzles %}
+            <a class="task {{'completed' if puzzle['solved']}}" href="/code/{{ puzzle['puzzle_id'] }}">
+                {{ puzzle['puzzle_id'] }}
             </a>
-            <a class="task" href="/code/2">
-                2
-            </a>
-            <a class="task" href="/code/3">
-                3
-            </a>
-            <a class="task" href="/code/4">
-                4
-            </a>
-            <a class="task completed" href="/code/5">
-                5
-            </a>
+            {% endfor %}
         </div>
-        <p>COMMS ARE ENABLED</p>
       </main>
     </body>
 
