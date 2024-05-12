@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect
 import os
 
 app = Flask(__name__)
@@ -10,6 +10,13 @@ codes = {
     '3': ['1','3','5','5','7'],
     '4': ['1','3','5','5','7'],
     '5': ['1','3','5','5','7'],
+}
+code_hints = {
+    '1': 'https://helios-i.mashable.com/imagery/articles/01pkPQvUb6TvGYptPMBKR4x/hero-image.fill.size_1200x900.v1681906803.jpg',
+    '2': 'https://m.media-amazon.com/images/M/MV5BMTBlNDU1NTgtNjY1Zi00ZTU0LTlkN2ItZmM5NDM5NmMyNzk3XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg',
+    '3': 'https://www.dexerto.com/cdn-cgi/image/width=3840,quality=60,format=auto/https://editors.dexerto.com/wp-content/uploads/2023/04/19/the-mandalorian-season-4-1.jpg',
+    '4': 'https://cdn.vox-cdn.com/thumbor/9QrnNlxvb39PlbtDfJEBqg5O6S4=/0x0:1939x706/1200x800/filters:focal(895x195:1205x505)/cdn.vox-cdn.com/uploads/chorus_image/image/72195127/Screenshot_2023_04_05_082849.0.jpg',
+    '5': 'https://www.digitaltrends.com/wp-content/uploads/2023/02/mandalorian-season-3-poster1.jpg?fit=720%2C421&p=1'
 }
 GLYPH_PATH = 'app/static/img/glyphs/'
 imgs = {
@@ -34,7 +41,8 @@ def home_view():
 
 @app.route("/code/<code_id>")
 def code_view(code_id):
-    return render_template('code.html', code_id=code_id, imgs=imgs, code_solution = codes[code_id])
+    return render_template('code.html', code_id=code_id, code_hint=code_hints[code_id],
+                           imgs=imgs, code_solution = codes[code_id])
 
 @app.route("/submit", methods=["POST"])
 def submit_code():
@@ -44,7 +52,6 @@ def submit_code():
         soln = codes[code_id]
         solved = code == soln
         if solved:
-            print("Hello")
             conn = get_db_connection()
             update_stmt = f'UPDATE solved_puzzles SET solved=? WHERE puzzle_id=?'
             conn.execute(
@@ -58,3 +65,14 @@ def submit_code():
         })
     else:
         return home_view()
+
+@app.route("/reset_progress")
+def reset_progress():
+    conn = get_db_connection()
+    update_stmt = f'UPDATE solved_puzzles SET solved=?'
+    conn.execute(
+        update_stmt, (0,)
+    )
+    conn.commit()
+    conn.close()
+    return redirect('/')

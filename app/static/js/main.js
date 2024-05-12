@@ -9,6 +9,13 @@
             symbol.addEventListener("click", addGlyph);
         });
 
+        const glyphBoxes = qsa('.glyph-box');
+        glyphBoxes.forEach((box) => {
+            box.addEventListener("click", function () {
+                this.innerHTML = '';
+            });
+        });
+
         const glyphToggles = qsa('#glyph-toggle > div');
         glyphToggles.forEach((toggle) => {
             let toggleValue = toggle.getAttribute('value');
