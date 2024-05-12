@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>The Mandalorian - Ditch Day 2024 | Home</title>
+
+        <link rel="stylesheet" href= "{{ url_for('static',filename='css/styles.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+        <script defer src="{{ url_for('static',filename='js/utils.js') }}"></script>
+        <script defer src="{{ url_for('static',filename='js/activate.js') }}"></script>
+    </head>
+    <body>
+      <main>
+        <img id="logo" src="{{ url_for('static', filename='img/empire.svg')}}">
+        {% if not activated %}
+        <p id="activate-text">
+            Welcome, privileged member of the Imperial security sphere. We are temporarily
+            disabling external communications due to news of a recent Mandalorian raid at your high-profile
+            Imperial facility, Fortress Inquisitorius. A daring move, surely, but one that was certainly
+            unwise - our facility is well guarded, and Lord Vader insists that these rogue band of Mandalorians
+            will be captured and killed. We have knowledge that makes it evident that these Mandalorian
+            warriors are seeking to recapture their prized possession, who we refer to internally as The Donor.
+            The Donor is in safe hands, but we must be careful. This facility is on lockdown.
+
+            Please use the killswitch below to start the 15-minute sequence that will eventually allow you
+            to reactivate the doors. Please heed caution, though, as it is possible the Mandalorians still roam
+            the facility. Only activate the killswitch if authorized by an Imperial officer of a security clearance
+            of A-143 or higher.
+        </p>
+        <button id="killswitch">KILLSWITCH</button>
+        {% else %}
+        <p id="activate-text">
+            <strong id="time-remaining">{{15 * 60 - elapsed_secs}}</strong> seconds remain until activation.
+            Hold tight - in the meantime, we're calling reinforcements. Those Mandalorians will be captured
+            by the time those doors open.
+        </p>
+        {% endif %}
+      </main>
+    </body>
+
+</html>

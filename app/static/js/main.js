@@ -43,6 +43,9 @@
     }
 
     function addGlyph() {
+        if (!active) {
+            return
+        }
         const glyphBoxes = qsa('.glyph-box');
         let completedGlyphs = 0;
         for (let i = 0; i < glyphBoxes.length; i++) {

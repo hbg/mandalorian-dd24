@@ -1,6 +1,7 @@
 import sqlite3
 from flask import Flask, render_template, request, jsonify, redirect
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'themandaloriandd24'
@@ -28,16 +29,30 @@ imgs = {
 }
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('database.db', detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
     conn.row_factory = sqlite3.Row
     return conn
 
+def get_elapsed_seconds():
+    conn = get_db_connection()
+    act_times = conn.execute("SELECT strftime('%s', 'now') - strftime('%s', activation_time) AS elapsed_seconds FROM activation").fetchall()
+    if len(act_times) == 0:
+        return None
+    conn.close()
+    return act_times[0]['elapsed_seconds']
+
 @app.route("/")
 def home_view():
-    conn = get_db_connection()
-    puzzles = conn.execute('SELECT * FROM solved_puzzles').fetchall()
-    conn.close()
-    return render_template('index.html', puzzles=puzzles)
+    elapsed_secs = get_elapsed_seconds()
+    if elapsed_secs and elapsed_secs > 60 * 15:
+        conn = get_db_connection()
+        puzzles = conn.execute('SELECT * FROM solved_puzzles').fetchall()
+        conn.close()
+        return render_template('index.html', puzzles=puzzles)
+    else:
+        if not elapsed_secs:
+            return render_template('activate.html', activated=False)
+        return render_template('activate.html', activated=True, elapsed_secs = elapsed_secs)
 
 @app.route("/code/<code_id>")
 def code_view(code_id):
@@ -65,6 +80,15 @@ def submit_code():
         })
     else:
         return home_view()
+
+@app.route('/activate')
+def activate_view():
+    conn = get_db_connection()
+    insert_stmt = 'INSERT INTO activation DEFAULT VALUES;'
+    conn.execute(insert_stmt)
+    conn.commit()
+    conn.close()
+    return redirect('/')
 
 @app.route("/reset_progress")
 def reset_progress():

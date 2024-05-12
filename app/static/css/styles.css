@@ -70,7 +70,7 @@ main {
 }
 
 .wrong {
-    background-color: rgb(200, 0, 0);
+    background-color: rgba(200, 0, 0, 0.7);
 }
 
 .correct {
@@ -150,7 +150,7 @@ a {
 
 #glyph-toggle div.selected {
     border-radius: 4px;
-    background-color: rgb(195, 195, 195);
+    border: 2px solid black;
 }
 
 .glyph-box {
@@ -186,7 +186,28 @@ a {
     justify-content: space-around;
 }
 
-#back-button {
-    font-family: 'Jaro';
+#back-button, #killswitch {
+    font-family: 'Jaro', 'Courier New', Courier, monospace;
     font-size: 18pt;
+}
+
+#activate-text {
+    padding: 8px;
+    border: 4px solid white;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+}
+
+#killswitch {
+    padding: 8px;
+    border: 4px solid darkred;
+    background-color: transparent;
+    transition: 250ms ease-in-out all;
+    color: darkred;
+}
+
+#killswitch:hover {
+    background-color: darkred;
+    color: black;
+    cursor: pointer;
 }
