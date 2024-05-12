@@ -34,7 +34,15 @@ def submit_code():
         code = request.json["code"]
         soln = codes[int(code_id)]
         solved = code == soln
-        print(code, soln)
+        if solved:
+            print("Hello")
+            conn = get_db_connection()
+            update_stmt = f'UPDATE solved_puzzles SET solved=? WHERE puzzle_id=?'
+            conn.execute(
+                update_stmt, (1, code_id)
+            )
+            conn.commit()
+            conn.close()
         return jsonify({
             'code_id': code_id,
             'solved': solved
