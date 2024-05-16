@@ -71,7 +71,7 @@ def home_view():
 
 @app.route('/comms/status')
 def emergency_phones_view():
-    return render_template('emergency-phones.html')
+    return render_template('emergency_phones.html', base_url=base_url)
 
 @app.route("/code/<code_id>")
 def code_view(code_id):

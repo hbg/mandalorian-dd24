@@ -217,3 +217,18 @@ a {
     color: black;
     cursor: pointer;
 }
+
+.st0{fill:#FFFFFF;}
+.st1{display:none;}
+.st2{fill:none;stroke:#FFFFFF;stroke-width:2;}
+.st3{fill:#128FD4;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
+.st4{fill:none;stroke:#FFFFFF;stroke-width:8;}
+
+.st3:hover {
+    cursor: pointer;
+}
+
+#emergency-phones > svg {
+    max-width: 400px;
+    min-width: 60%;
+}
