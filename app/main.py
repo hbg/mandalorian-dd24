@@ -11,22 +11,18 @@ app.config['SECRET_KEY'] = 'themandaloriandd24'
 config = configparser.ConfigParser()
 config.read('app.cfg')
 base_url = config.get('DEFAULT', 'base_url')
-print(base_url)
 
 codes = {
-    '1': ['air', 'season', 'small', 'yoda', 'likes'],
-    '2': ['plant', 'plant', 'fire', 'kills'],
-    '3': ['small', 'sloth', 'jedi', 'jedi', 'protects'],
-    '4': ['moon', 'person', 'sees'],
+    '1': ['air', 'season', 'small', 'yoda', 'like'],
+    '2': ['plant', 'plant', 'fire', 'kill'],
+    '3': ['small', 'sloth', 'jedi', 'jedi', 'protect'],
+    '4': ['moon', 'person', 'see'],
     '5': ['go', 'garden', 'mandalorian', 'can', 'not'],
 }
 
 code_hints = {
-    '1': 'https://helios-i.mashable.com/imagery/articles/01pkPQvUb6TvGYptPMBKR4x/hero-image.fill.size_1200x900.v1681906803.jpg',
-    '2': 'https://m.media-amazon.com/images/M/MV5BMTBlNDU1NTgtNjY1Zi00ZTU0LTlkN2ItZmM5NDM5NmMyNzk3XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg',
-    '3': 'https://www.dexerto.com/cdn-cgi/image/width=3840,quality=60,format=auto/https://editors.dexerto.com/wp-content/uploads/2023/04/19/the-mandalorian-season-4-1.jpg',
-    '4': 'https://cdn.vox-cdn.com/thumbor/9QrnNlxvb39PlbtDfJEBqg5O6S4=/0x0:1939x706/1200x800/filters:focal(895x195:1205x505)/cdn.vox-cdn.com/uploads/chorus_image/image/72195127/Screenshot_2023_04_05_082849.0.jpg',
-    '5': 'https://www.digitaltrends.com/wp-content/uploads/2023/02/mandalorian-season-3-poster1.jpg?fit=720%2C421&p=1'
+    str(puzzle_id) :  f'{base_url}/static/img/language_puzzles/{puzzle_id}.png'
+    for puzzle_id in range(1, 6)
 }
 
 GLYPH_PATH = 'app/static/img/glyphs/'
@@ -57,6 +53,30 @@ def is_solved(puzzle_id):
         return None
     return puzzles[0]['solved'] == 1
 
+def get_emergency_phones():
+    conn = get_db_connection()
+    stmt = 'SELECT * FROM comm_status'
+    phones = conn.execute(stmt).fetchall()
+    conn.close()
+    return phones
+
+def get_emergency_phone(comm_id):
+    conn = get_db_connection()
+    stmt = 'SELECT * FROM comm_status WHERE comm_id = ?'
+    phones = conn.execute(stmt, (comm_id,)).fetchall()
+    conn.close()
+    if len(phones) == 0:
+        return None
+    return phones[0]
+
+def solve_emergency_phone(comm_id):
+    conn = get_db_connection()
+    stmt = 'UPDATE comm_status SET solved = ? WHERE comm_id = ?'
+    conn.execute(stmt, (1, comm_id))
+    conn.commit()
+    conn.close()
+    return
+
 @app.route("/")
 def home_view():
     elapsed_secs = get_elapsed_seconds()
@@ -72,7 +92,8 @@ def home_view():
 
 @app.route('/comms/status')
 def emergency_phones_view():
-    return render_template('emergency_phones.html', base_url=base_url)
+    phones = get_emergency_phones()
+    return render_template('emergency_phones.html', base_url=base_url, phones=phones)
 
 @app.route("/code/<code_id>")
 def code_view(code_id):
@@ -83,6 +104,15 @@ def code_view(code_id):
     return render_template('code.html', code_id=code_id, code_hint=code_hints[code_id],
                            code_solution = codes[code_id], solved=solved,
                            categories=categories, base_url=base_url)
+
+@app.route('/comms/<comm_id>')
+def comm_view(comm_id):
+    comm_details = get_emergency_phone(comm_id)
+    if comm_details is None:
+        return redirect(base_url+'/comms/status')
+    else:
+        solve_emergency_phone(comm_id)
+        return redirect(base_url+'/comms/status')
 
 @app.route("/submit", methods=["POST"])
 def submit_code():
