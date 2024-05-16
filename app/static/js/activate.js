@@ -6,7 +6,7 @@
         const killswitch = id("killswitch");
         if (killswitch) {
             killswitch.addEventListener("click", () => {
-                window.location.href = '/activate';
+                window.location.href = '/dd24/mandalorian/activate';
             })
         } else {
             setInterval(updateTime, 1000);
@@ -17,7 +17,7 @@
         const timeRemaining = id('time-remaining');
         let secondsLeft = parseInt(timeRemaining.textContent);
         if (secondsLeft == 0) {
-            window.location.href = '/'
+            window.location.href = '/dd24/mandalorian'
         }
         timeRemaining.textContent = secondsLeft - 1;
     }

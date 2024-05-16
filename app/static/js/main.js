@@ -88,9 +88,8 @@
 
         let codeId = qs("main").getAttribute('value');
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/submit", true);
+        xhr.open("POST", "/dd24/mandalorian/submit", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        console.log(codeId);
         xhr.send(JSON.stringify({
             codeId: codeId,
             code: code
@@ -100,7 +99,6 @@
                 if (xhr.status == 200) {
                     var json_data = JSON.parse(xhr.responseText);
                     if (json_data['solved'] == true) {
-                        console.log("Solved!");
                         glyphBoxImgs.forEach((img) => {
                             img.classList.add("correct");
                         });

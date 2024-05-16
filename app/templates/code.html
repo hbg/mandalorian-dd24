@@ -6,17 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>The Mandalorian - Ditch Day 2024 | Code {{ code_id }}</title>
 
-        <link rel="stylesheet" href= "{{ url_for('static',filename='css/styles.css') }}">
+        <link rel="stylesheet" href= "{{base_url}}/static/css/styles.css"">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
-        <script defer src="{{ url_for('static',filename='js/utils.js') }}"></script>
-        <script defer src="{{ url_for('static',filename='js/main.js') }}"></script>
+        <script defer src="{{base_url}}/static/js/utils.js"></script>
+        <script defer src="{{base_url}}/static/js/main.js""></script>
     </head>
     <body>
       <main value="{{code_id}}">
-        <img id="logo" src="{{ url_for('static', filename='img/empire.svg')}}">
+        <img id="logo" src="{{base_url}}/static/img/empire.svg">
         <section id="glyph-translation-container">
             <div id="glyph-info">
                 <img src="{{code_hint}}">
@@ -26,7 +26,7 @@
                         {% if solved %}
                             {% for type, glyphs in categories.items() %}
                                 {% if glyph in glyphs %}
-                                    <img src="{{ url_for('static', filename='img/glyphs/'+ type + '/'+glyph+'.png')}}" alt="{{glyph}}">
+                                    <img src="{{base_url}}/static/img/glyphs/{{type}}/{{glyph}}.png" alt="{{glyph}}">
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -42,34 +42,16 @@
                     <div value="people">People</div>
                     <div value="adjectives">Adjectives</div>
                 </section>
-                <section class="glyph-wrapper" id="glyph-places">
-                    {% for img in imgs['places'] %}
-                        <img src={{ '/static/img/glyphs/places/' + img }} alt="{{ img | replace(".png", "")}}">
-                    {% endfor %}
-                </section>
-                <section class="glyph-wrapper hidden" id="glyph-nouns">
-                    {% for img in imgs['nouns'] %}
-                        <img src={{ '/static/img/glyphs/nouns/' + img }} alt="{{ img | replace(".png", "")}}">
-                    {% endfor %}
-                </section>
-                <section class="glyph-wrapper hidden" id="glyph-people">
-                    {% for img in imgs['people'] %}
-                        <img src={{ '/static/img/glyphs/people/' + img }} alt="{{ img | replace(".png", "")}}">
-                    {% endfor %}
-                </section>
-                <section class="glyph-wrapper hidden" id="glyph-adjectives">
-                    {% for img in imgs['adjectives'] %}
-                        <img src={{ '/static/img/glyphs/adjectives/' + img }} alt="{{ img | replace(".png", "")}}">
-                    {% endfor %}
-                </section>
-                <section class="glyph-wrapper hidden" id="glyph-verbs">
-                    {% for img in imgs['verbs'] %}
-                        <img src={{ '/static/img/glyphs/verbs/' + img }} alt="{{ img | replace(".png", "")}}">
-                    {% endfor %}
-                </section>
+                {% for type, glyphs in categories.items() %}
+                    <section class="glyph-wrapper {% if type != 'places' %} hidden {% endif %}" id="glyph-{{type}}">
+                        {% for img in glyphs %}
+                            <img src="{{base_url}}/static/img/glyphs/{{type}}/{{img}}.png" alt="{{ img | replace(".png", "")}}">
+                        {% endfor %}
+                    </section>
+                {% endfor %}
             </div>
         </section>
-        <button id="back-button"><a href="/">← Go Back</a></button>
+        <button id="back-button"><a href="{{base_url}}">← Go Back</a></button>
       </main>
     </body>
 

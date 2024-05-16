@@ -5,7 +5,7 @@ body {
 
 @font-face {
     font-family: 'Aurebesh';
-    src: url('/static/fonts/Aurebesh.ttf');
+    src: url('/dd24/mandalorian/static/fonts/Aurebesh.ttf');
 }
 
 body {
@@ -67,6 +67,10 @@ main {
     flex-direction: column;
     font-size: 36pt;
     overflow: auto;
+}
+
+.task:hover {
+    cursor: pointer;
 }
 
 .wrong {
@@ -171,6 +175,7 @@ a {
 
 .glyph-wrapper img:hover {
     background-color: rgba(255, 255, 255, 0.467);
+    cursor: pointer;
 }
 
 .hidden {
