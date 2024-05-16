@@ -11,13 +11,14 @@ app.config['SECRET_KEY'] = 'themandaloriandd24'
 config = configparser.ConfigParser()
 config.read('app.cfg')
 base_url = config.get('DEFAULT', 'base_url')
+print(base_url)
 
 codes = {
-    '1': ['moon']*5,
-    '2': ['moon']*2 + ['sun']*3,
-    '3': ['1','3','5','5','7'],
-    '4': ['1','3','5','5','7'],
-    '5': ['1','3','5','5','7'],
+    '1': ['air', 'season', 'small', 'yoda', 'likes'],
+    '2': ['plant', 'plant', 'fire', 'kills'],
+    '3': ['small', 'sloth', 'jedi', 'jedi', 'protects'],
+    '4': ['moon', 'person', 'sees'],
+    '5': ['go', 'garden', 'mandalorian', 'can', 'not'],
 }
 
 code_hints = {
