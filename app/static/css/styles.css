@@ -233,6 +233,10 @@ a {
 }
 
 #emergency-phones > svg {
-    max-width: 400px;
-    min-width: 60%;
+    max-width: 600px;
+    width: 100%;
+}
+
+#emergency-phones {
+    width: 90%;
 }

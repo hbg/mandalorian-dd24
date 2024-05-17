@@ -14,5 +14,6 @@ CREATE TABLE activation (
 CREATE TABLE comm_status (
     phone_id INTEGER PRIMARY KEY AUTOINCREMENT,
     comm_id  VARCHAR(32),
+    solution VARCHAR(32),
     solved BIT NOT NULL DEFAULT 0
 );

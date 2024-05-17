@@ -106,13 +106,30 @@ def code_view(code_id):
                            categories=categories, base_url=base_url)
 
 @app.route('/comms/<comm_id>')
-def comm_view(comm_id):
-    comm_details = get_emergency_phone(comm_id)
-    if comm_details is None:
-        return redirect(base_url+'/comms/status')
+def comm_view(comm_id, methods=['GET', 'POST']):
+    if request.method == 'GET':
+        comm_details = get_emergency_phone(comm_id)
+        if comm_details is None:
+            return redirect(base_url+'/comms/status')
+        else:
+            return render_template('emergency_phone_puzzle.html', details=comm_details, base_url=base_url)
     else:
-        solve_emergency_phone(comm_id)
-        return redirect(base_url+'/comms/status')
+        comm_details = get_emergency_phone(comm_id)
+        if comm_details is None:
+            return jsonify({
+                "solved": False,
+                "comm_id": comm_id
+            })
+        else:
+            solved = comm_details["solution"] == request.json.get("code")
+            if solved:
+                solve_emergency_phone(comm_id)
+            return jsonify({
+                "solved": solved,
+                "comm_id": comm_id
+            })
+
+
 
 @app.route("/submit", methods=["POST"])
 def submit_code():
